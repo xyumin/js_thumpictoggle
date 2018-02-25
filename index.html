@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>带缩略图的图片切换</title>
+	<style type="text/css">
+		body,div,img,input,ul,li {
+			margin:0;
+			padding:0;
+		}
+		img {
+			border:none;
+		}
+		a {
+			text-decoration: none;
+		}
+		ul {
+			list-style: none;
+		}
+		.clearfix:after {
+			content: "";
+			display:block;
+			clear:both;
+		}
+		.clearfix {
+			*zoom:1;
+		}
+		.wrap {
+			width:1000px;
+			height:600px;
+			margin:0 auto;
+			background: url("img/bg1.jpg") no-repeat;
+			background-size: 1000px 600px;
+			overflow: hidden;
+			zoom:1;
+		}
+		#pic_box {
+			width:700px;
+			margin:0 auto;
+			margin-top: 30px;
+			position: relative;
+		}
+		#pic_box img {
+			width:700px;
+			height:500px;
+		}
+		#prev , #next {
+			position: absolute;
+			top:230px;
+			width:45px;
+			height:45px;
+			line-height: 45px;
+			font-size: 30px;
+			font-weight: bold;
+			border-radius: 50%;
+			background-color: #fdb302;
+			text-align: center;
+			color:#fff;
+		}
+		#prev {
+			left:10px;
+		}
+		#next {
+			right:10px;
+		}
+		#pic_box a:hover {
+			background-color: #fece5c;
+		}
+		#thum_list {
+			width:150px;
+			margin:20px auto 0;
+		}
+		#thum_list li {
+			float: left;
+			width:30px;
+			height:30px;
+			background: url("img/circle.png") no-repeat 0 -30px;
+			position: relative;
+		}
+		#thum_list .active {
+			background: url("img/circle.png") no-repeat 0 0;
+		}
+		#thum_list li div {
+			position: absolute;
+			left:-65px;
+			top:-120px;
+			display: none;
+			border:5px solid #fff;
+		}
+		#thum_list li div img {
+			width:150px;
+			height:100px;
+			display: block;
+		}
+		#thum_list li div span {
+			width:0;
+			height:0;
+			border:10px solid transparent;
+			border-top-color: #fff;
+			position: absolute;
+			left:65px;
+			top:100px;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			var arrUrl=['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg','img/5.jpg'];
+			var oPic=document.getElementById('pic');
+			var oPrev=document.getElementById('prev');
+			var oNext=document.getElementById('next');
+			var oThum=document.getElementById('thum_list');
+			var aLi=oThum.getElementsByTagName('li');
+			var aDiv=oThum.getElementsByTagName('div');
+
+
+			var num=0;
+			function tab_pic(){
+				oPic.src=arrUrl[num];
+				for(var i=0;i<aLi.length;i++){
+					if(i!=num){
+						aLi[i].className='';
+					}else{
+						aLi[num].className='active';
+					}
+				}	
+			}
+			tab_pic();
+
+			oPrev.onclick=function(){
+				num--;
+				if(num==-1){
+					num=arrUrl.length-1;
+				}
+				tab_pic();
+			}
+			oNext.onclick=function(){
+				num++;
+				if(num==arrUrl.length){
+					num=0;
+				}
+				tab_pic();
+			}
+			for(var i=0;i<aLi.length;i++){
+				aLi[i].index=i;
+				aLi[i].onmouseover=function(){
+					aDiv[this.index].style.display='block';
+				}
+				aLi[i].onmouseout=function(){
+					aDiv[this.index].style.display='none';
+				}
+				aLi[i].onclick=function(){
+					num=this.index;
+					tab_pic();
+				}
+				
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="wrap">
+		<div id="pic_box"><img src="img/1.jpg" id="pic"><a href="javascript:;" class="btn" id="prev">&lt;</a><a href="javascript:;" class="btn" id="next">&gt;</a></div>
+		<ul id="thum_list" class="clearfix">
+			<li><div><img src="img/1.jpg" alt=""><span></span></div></li>
+			<li><div><img src="img/2.jpg" alt=""><span></span></div></li>
+			<li><div><img src="img/3.jpg" alt=""><span></span></div></li>
+			<li><div><img src="img/4.jpg" alt=""><span></span></div></li>
+			<li><div><img src="img/5.jpg" alt=""><span></span></div></li>
+		</ul>
+	</div>
+</body>
+</html>
